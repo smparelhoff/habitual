@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  Button,
   View,
 } from 'react-native';
 import { WebBrowser } from 'expo';
@@ -22,63 +23,51 @@ export default class HomeScreen extends React.Component {
     return (
       <View style={styles.container}>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-
-          <View style={styles.getStartedContainer}>
-            {this._maybeRenderDevelopmentModeWarning()}
-
-            <Text style={styles.getStartedText}>Get started by opening</Text>
-
-            <View style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
-              <MonoText style={styles.codeHighlightText}>screens/HomeScreen.js</MonoText>
-            </View>
-
-            <Text style={styles.getStartedText}>
-             Hey There App!
-            </Text>
-          </View>
-
-          <View style={styles.helpContainer}>
-            <TouchableOpacity onPress={this._handleHelpPress} style={styles.helpLink}>
-              <Text style={styles.helpLinkText}>What about now?</Text>
-            </TouchableOpacity>
-          </View>
+        <Button
+          title="Create New Habit"
+          onPress={() => this.props.navigation.navigate('CreateHabit')}
+        />
+        <Button
+          title="Update Habits"
+          onPress={() => this.props.navigation.navigate('Habits')}
+        />
         </ScrollView>
       </View>
     );
   }
 
-  _maybeRenderDevelopmentModeWarning() {
-    if (__DEV__) {
-      const learnMoreButton = (
-        <Text onPress={this._handleLearnMorePress} style={styles.helpLinkText}>
-          Learn more
-        </Text>
-      );
+  // _maybeRenderDevelopmentModeWarning() {
+  //   if (__DEV__) {
+  //     const learnMoreButton = (
+  //       <Text onPress={this._handleLearnMorePress} style={styles.helpLinkText}>
+  //         Learn more
+  //       </Text>
+  //     );
 
-      return (
-        <Text style={styles.developmentModeText}>
-          Development mode is enabled, your app will be slower but you can use useful development
-          tools. {learnMoreButton}
-        </Text>
-      );
-    } else {
-      return (
-        <Text style={styles.developmentModeText}>
-          You are not in development mode, your app will run at full speed.
-        </Text>
-      );
-    }
-  }
+  //     return (
+  //       <Text style={styles.developmentModeText}>
+  //         Development mode is enabled, your app will be slower but you can use useful development
+  //         tools. {learnMoreButton}
+  //       </Text>
+  //     );
+  //   } else {
+  //     return (
+  //       <Text style={styles.developmentModeText}>
+  //         You are not in development mode, your app will run at full speed.
+  //       </Text>
+  //     );
+  //   }
+  // }
 
-  _handleLearnMorePress = () => {
-    WebBrowser.openBrowserAsync('https://docs.expo.io/versions/latest/guides/development-mode');
-  };
+  // _handleLearnMorePress = () => {
+  //   WebBrowser.openBrowserAsync('http://google.com');
+  // };
 
-  _handleHelpPress = () => {
-    WebBrowser.openBrowserAsync(
-      'https://docs.expo.io/versions/latest/guides/up-and-running.html#can-t-see-your-changes'
-    );
-  };
+  // _handleHelpPress = () => {
+  //   WebBrowser.openBrowserAsync(
+  //     'http://www.google.com'
+  //   );
+  // };
 }
 
 const styles = StyleSheet.create({

@@ -1,9 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux'
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
 
-export default class App extends React.Component {
+class App extends React.Component {
   state = {
     isLoadingComplete: false,
   };
@@ -60,3 +61,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
 });
+
+export default connect()(App)
