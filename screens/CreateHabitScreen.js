@@ -1,27 +1,42 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Text, Button } from 'react-native';
+import {connect} from 'react-redux'
+import {createHabit} from '../store/habits'
 
-export default class CreateHabitScreen extends React.Component {
-  static navigationOptions = {
+class CreateHabitScreen extends React.Component {
+  constructor(){
+      super()
+      this.state = {
+          habitName: '',
+          color: ''
+      }
+  }
+  
+static navigationOptions = {
     title: 'CreateHabit',
   };
+
+handleSubmit(){
+    
+}
 
   render() {
     return (
       <ScrollView style={styles.container}>
-       <Text>Hi!!!!!!!!!!!!!!</Text>
-       <Button
-          title="Go to Home"
-          onPress={() => this.props.navigation.push('Home')}
-        />
-        <Button
-          title="Go back"
-          onPress={() => this.props.navigation.popToTop()}
-        />
+       
       </ScrollView>
     );
   }
 }
+
+
+const mapDispatchToProps = (dispatch) => ({
+    newHabit: (name, color) => {
+        dispatch(createHabit(name, color))
+    }
+})
+
+export default connect(null, mapDispatchToProps)(CreateHabitScreen)
 
 const styles = StyleSheet.create({
   container: {
