@@ -19,8 +19,9 @@ const firstDay = moment()
 // ];
 
 //Action Constants
-const CREATED_HABIT = "CREATE_HABIT";
+const CREATED_HABIT = "CREATED_HABIT";
 const UPDATE_HABIT = "UPDATE_HABIT";
+const GOT_HABITS = "GOT_HABITS"
 
 //Action Creators
 const createdHabit = habit => ({
@@ -33,7 +34,32 @@ export const updateHabit = habit => ({
   habit
 });
 
+const gotHabits = (habits) => ({
+  type: GOT_HABITS,
+  habits
+})
+
 //Thunk Creators
+export const getHabits = () => async dispatch => {
+  try {
+    console.log("INSIDE THE THUNK...")
+    const allHabits = await AsyncStorage.getItem(
+      `${currentYear}_${currentMonth}`
+    );
+    if (allHabits !== null){
+      const deserializeHabits = JSON.parse(allHabits)
+      const keys = Object.keys(deserializeHabits)
+      const habits = keys.map((key) => {
+        return {...deserializeHabits[key][currDay - 1], name: key}
+      })
+      dispatch(gotHabits(habits))
+    } else dispatch(gotHabits([]))
+  } catch (error) {
+    console.log("HEY! I CAUGHT AN...", error)
+  }
+}
+
+
 export const createHabit = (habitName, color) => async dispatch => {
   try {
     const newHabit = createHabitMap(color);
@@ -67,7 +93,12 @@ export const createHabit = (habitName, color) => async dispatch => {
 const initialState = [];
 
 const habits = (state = initialState, action) => {
+  console.log("INSIDE THE REDUCER?")
+  console.log(action)
   switch (action.type) {
+    case GOT_HABITS: {
+      return action.habits
+    }
     case CREATED_HABIT: {
       return [...state, action.habit];
     }

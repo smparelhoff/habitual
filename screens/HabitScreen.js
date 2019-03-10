@@ -1,18 +1,34 @@
 import React from "react";
-import { View, ScrollView, StyleSheet, Text } from "react-native";
+import { View, ScrollView, StyleSheet, Text, Button } from "react-native";
 import { connect } from "react-redux";
 import Habits from "../components/Habits";
+import {getHabits} from "../store/habits";
 
 class HabitScreen extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      dataFetched: false
+    };
   }
   static navigationOptions = {
     header: null
   };
 
+  async componentDidMount () {
+    try {
+      if (this.state.dataFetched === false) {
+      console.log("CALLING FETCH HABITS...");
+      await this.props.fetchHabits()
+      this.setState({ dataFetched: true });
+      }
+    } catch (error){
+      console.log("Whoops!")
+    }
+    }
+
   render() {
-    return (
+    return this.state.dataFetched ? (
       <View style={styles.container}>
         <ScrollView
           style={styles.container}
@@ -20,6 +36,13 @@ class HabitScreen extends React.Component {
         >
           <Habits />
         </ScrollView>
+      </View>
+    ) : (
+      <View>
+        <Button
+          title="Add New Habit"
+          onPress={() => this.props.navigation.navigate("CreateHabit")}
+        />
       </View>
     );
   }
@@ -44,4 +67,11 @@ const mapStateToProps = state => ({
   habits: state.habits
 });
 
-export default connect(mapStateToProps)(HabitScreen);
+const mapDispatchToProps = dispatch => ({
+  fetchHabits: () => dispatch(getHabits())
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(HabitScreen);

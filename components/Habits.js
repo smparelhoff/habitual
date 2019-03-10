@@ -1,8 +1,19 @@
 import React from "react";
 import { connect } from "react-redux";
-import { ScrollView, Text, View, StyleSheet, TextInput } from "react-native";
+import { ScrollView, Text, View, StyleSheet } from "react-native";
+import { ThemeProvider, Button } from "react-native-elements";
 import TouchableSquare from "./TouchableSquare";
 import { updateHabit } from "../store/habits";
+
+const theme = {
+  Button: {
+    raised: true,
+    type: "outline",
+    titleStyle: { fontFamily: "montserrat-light" },
+    buttonStyle: { backgroundColor: "peachpuff" },
+    containerStyle: { width: 200 }
+  }
+};
 
 class Habits extends React.Component {
   constructor() {
@@ -16,25 +27,27 @@ class Habits extends React.Component {
 
   render() {
     return this.props.habits.length ? (
-      <ScrollView pagingEnabled={true}>
-        {this.props.habits.map((habit, idx) => {
-          return (
-            <View key={idx}>
-              <Text>{habit.name}</Text>
-              <TouchableSquare
-                name={habit.name}
-                clicked={habit.status}
-                onPress={this.clickHandler}
-                color={habit.color}
-              />
-            </View>
-          );
-        })}
-      </ScrollView>
+      <ThemeProvider theme={theme}>
+        <ScrollView pagingEnabled={true}>
+          {this.props.habits.map((habit, idx) => {
+            return (
+              <View key={idx}>
+                <Text>{habit.name}</Text>
+                <TouchableSquare
+                  name={habit.name}
+                  clicked={habit.status}
+                  onPress={this.clickHandler}
+                  color={habit.color}
+                />
+              </View>
+            );
+          })}
+        </ScrollView>
+      </ThemeProvider>
     ) : (
-      <View>
+      <ThemeProvider theme={theme}>
         <Text>One moment please...</Text>
-      </View>
+      </ThemeProvider>
     );
   }
 }
