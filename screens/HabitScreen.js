@@ -2,7 +2,7 @@ import React from "react";
 import { View, ScrollView, StyleSheet, Text, Button } from "react-native";
 import { connect } from "react-redux";
 import Habits from "../components/Habits";
-import {getHabits} from "../store/habits";
+import { getHabits } from "../store/habits";
 
 class HabitScreen extends React.Component {
   constructor(props) {
@@ -15,20 +15,21 @@ class HabitScreen extends React.Component {
     header: null
   };
 
-  async componentDidMount () {
+  async componentDidMount() {
     try {
       if (this.state.dataFetched === false) {
-      console.log("CALLING FETCH HABITS...");
-      await this.props.fetchHabits()
-      this.setState({ dataFetched: true });
+        await this.props.fetchHabits();
+        if (this.props.habits) {
+          this.setState({ dataFetched: true });
+        }
       }
-    } catch (error){
-      console.log("Whoops!")
+    } catch (error) {
+      console.log(error);
     }
-    }
+  }
 
   render() {
-    return this.state.dataFetched ? (
+    return (this.props.habits.length) ? (
       <View style={styles.container}>
         <ScrollView
           style={styles.container}
@@ -38,11 +39,16 @@ class HabitScreen extends React.Component {
         </ScrollView>
       </View>
     ) : (
-      <View>
+      <View style={styles.container}>
+      <ScrollView
+          style={styles.container}
+          contentContainerStyle={styles.contentContainer}
+        >
         <Button
           title="Add New Habit"
           onPress={() => this.props.navigation.navigate("CreateHabit")}
         />
+        </ScrollView>
       </View>
     );
   }
@@ -54,7 +60,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F5EDED"
   },
   contentContainer: {
-    paddingTop: 30
+    paddingTop: 200
   },
   square: {
     backgroundColor: "red",

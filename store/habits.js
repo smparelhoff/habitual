@@ -42,18 +42,19 @@ const gotHabits = (habits) => ({
 //Thunk Creators
 export const getHabits = () => async dispatch => {
   try {
-    console.log("INSIDE THE THUNK...")
-    const allHabits = await AsyncStorage.getItem(
-      `${currentYear}_${currentMonth}`
-    );
-    if (allHabits !== null){
-      const deserializeHabits = JSON.parse(allHabits)
-      const keys = Object.keys(deserializeHabits)
-      const habits = keys.map((key) => {
-        return {...deserializeHabits[key][currDay - 1], name: key}
-      })
-      dispatch(gotHabits(habits))
-    } else dispatch(gotHabits([]))
+    await AsyncStorage.removeItem(`${currentYear}_${currentMonth}`)
+    // const allHabits = await AsyncStorage.getItem(
+    //   `${currentYear}_${currentMonth}`
+    // );
+    // if (allHabits !== null){
+    //   const deserializeHabits = JSON.parse(allHabits)
+    //   const keys = Object.keys(deserializeHabits)
+    //   const habits = keys.map((key) => {
+    //     return {...deserializeHabits[key][currDay - 1], name: key}
+    //   })
+    //   dispatch(gotHabits(habits))
+    // } else 
+    dispatch(gotHabits([]))
   } catch (error) {
     console.log("HEY! I CAUGHT AN...", error)
   }
