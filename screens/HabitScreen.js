@@ -12,7 +12,6 @@ class HabitScreen extends React.Component {
   };
 
   render() {
-    console.log("Habits props: ", this.props.habits);
     return (
       <View style={styles.container}>
         <ScrollView

@@ -2,8 +2,8 @@ import React from "react";
 import { TouchableOpacity, StyleSheet } from "react-native";
 
 export default class TouchableSquare extends React.PureComponent {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.squarePressed = this.squarePressed.bind(this);
   }
   squarePressed() {
@@ -19,7 +19,14 @@ export default class TouchableSquare extends React.PureComponent {
       <TouchableOpacity
         style={
           clicked
-            ? [styles.clickedSquare, styles[this.props.color]]
+            ? {
+                width: 200,
+                height: 200,
+                margin: 5,
+                alignSelf: "center",
+                borderRadius: 50,
+                backgroundColor: `${this.props.color}`
+              }
             : styles.square
         }
         onPress={this.squarePressed}
@@ -29,22 +36,6 @@ export default class TouchableSquare extends React.PureComponent {
 }
 
 const styles = StyleSheet.create({
-  clickedSquare: {
-    width: 200,
-    height: 200,
-    margin: 5,
-    alignSelf: "center",
-    borderRadius: 50
-  },
-  greenyellow: {
-    backgroundColor: "greenyellow"
-  },
-  royalblue: {
-    backgroundColor: "royalblue"
-  },
-  lightpink: {
-    backgroundColor: "lightpink"
-  },
   square: {
     backgroundColor: "#dcdcdc",
     width: 200,

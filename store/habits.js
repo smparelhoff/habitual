@@ -3,7 +3,8 @@ import moment from "moment";
 
 const currentMonth = moment().month();
 const currentYear = moment().year();
-const monthLength = moment().daysInMonth()
+const monthLength = moment().daysInMonth();
+const currDay = moment().date();
 
 const firstDay = moment()
   .year(currentYear)
@@ -11,20 +12,20 @@ const firstDay = moment()
   .date(1)
   .isoWeekday();
 
-const dummyHabits = [
-  { name: "water", status: false, color: "royalblue" },
-  { name: "lunch", status: false, color: "lightpink" },
-  { name: "bed", status: false, color: "greenyellow" }
-];
+// const dummyHabits = [
+//   { name: "water", status: false, color: "royalblue" },
+//   { name: "lunch", status: false, color: "lightpink" },
+//   { name: "bed", status: false, color: "greenyellow" }
+// ];
 
 //Action Constants
 const CREATED_HABIT = "CREATE_HABIT";
 const UPDATE_HABIT = "UPDATE_HABIT";
 
 //Action Creators
-export const createdHabit = (habit) => ({
+const createdHabit = habit => ({
   type: CREATED_HABIT,
- habit
+  habit
 });
 
 export const updateHabit = habit => ({
@@ -35,21 +36,35 @@ export const updateHabit = habit => ({
 //Thunk Creators
 export const createHabit = (habitName, color) => async dispatch => {
   try {
-    const newHabit = { [habitName]: createHabitMap(color) };
-    await AsyncStorage.mergeItem(
-      `${currentYear}-${currentMonth}`,
-      JSON.stringify(newHabit)
+    const newHabit = createHabitMap(color);
+    const currHabits = await AsyncStorage.getItem(
+      `${currentYear}_${currentMonth}`
     );
-    const today = newHabit[habitName][moment.date()]
-    console.log(today)
-    dispatch(createdHabit(today))
+    if (currHabits !== null) {
+      const deserializeHabits = JSON.parse(currHabits)
+      const newHabits = {...deserializeHabits, [habitName]: newHabit}
+      await AsyncStorage.setItem(
+        `${currentYear}_${currentMonth}`,
+        JSON.stringify(newHabits)
+      );
+      // await AsyncStorage.removeItem(`${currentYear}_${currentMonth}`)
+    } else {
+      await AsyncStorage.setItem(`${currentYear}_${currentMonth}`, JSON.stringify({[habitName]: newHabit}))
+    }
+    
+    // const checkStorage = await AsyncStorage.getItem(
+    //   `${currentYear}_${currentMonth}`
+    // );
+    // console.log("CHECK STORAGE: ", JSON.parse(checkStorage));
+    const today = newHabit[currDay - 1]
+    dispatch(createdHabit({...today, name: habitName }));
   } catch (error) {
     console.log(error);
   }
 };
 
 //Sub Reducer
-const initialState = dummyHabits;
+const initialState = [];
 
 const habits = (state = initialState, action) => {
   switch (action.type) {
@@ -72,13 +87,17 @@ const habits = (state = initialState, action) => {
 
 export default habits;
 
-
 //helper functions
 
-const createHabitMap = (color) => {
-    const habitMap = new Map()
-    for (let i = 0; i < monthLength; i++) {
-      habitMap.set(i + 1, {dayOfWeek: (firstDay + i) % 7, color: color, status: false})
-    }
-    return habitMap
-}
+const createHabitMap = color => {
+  const habitMap = [];
+  for (let i = 0; i < monthLength; i++) {
+    habitMap.push({
+      date: i + 1,
+      dayOfWeek: (firstDay + i) % 7,
+      color: color,
+      status: false
+    });
+  }
+  return habitMap;
+};

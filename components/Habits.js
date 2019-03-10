@@ -7,9 +7,6 @@ import { updateHabit } from "../store/habits";
 class Habits extends React.Component {
   constructor() {
     super();
-    this.state = {
-      note: ''
-    }
     this.clickHandler = this.clickHandler.bind(this);
   }
 
@@ -17,15 +14,9 @@ class Habits extends React.Component {
     this.props.habitUpdater(habit);
   }
 
-  noteSubmit(note) {
-
-  }
-
   render() {
-    console.log(this.state.note)
     return this.props.habits.length ? (
       <ScrollView pagingEnabled={true}>
-        {/* <ScrollView horizontal contentContainerStyle={styles.contentContainer}> */}
         {this.props.habits.map((habit, idx) => {
           return (
             <View key={idx}>
@@ -41,7 +32,6 @@ class Habits extends React.Component {
         })}
       </ScrollView>
     ) : (
-      // </ScrollView>
       <View>
         <Text>One moment please...</Text>
       </View>
