@@ -38,6 +38,8 @@ class Habits extends React.Component {
                   clicked={habit.status}
                   onPress={this.clickHandler}
                   color={habit.color}
+                  date={habit.date}
+                  dayOfWeek={habit.dayOfWeek}
                 />
               </View>
             );

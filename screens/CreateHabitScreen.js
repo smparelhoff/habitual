@@ -32,6 +32,7 @@ class CreateHabitScreen extends React.Component {
 
   handleSubmit(){
     this.props.newHabit(this.state.text, this.state.color)
+    this.setState({text: '', color: ''})
     this.props.navigation.navigate('Habits')
   }
 

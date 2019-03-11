@@ -1,13 +1,27 @@
 import React from 'react';
 import { connect } from 'react-redux'
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
-import { AppLoading, Asset, Font, Icon } from 'expo';
+import { Platform, StatusBar, StyleSheet, View, Button, Alert } from 'react-native';
+import { AppLoading, Asset, Font, Icon, Notifications, Permissions } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
+
+// async function getiOSNotificationPermission() {
+//   const { status } = await Permissions.getAsync(
+//     Permissions.NOTIFICATIONS
+//   );
+//   if (status !== 'granted') {
+//     await Permissions.askAsync(Permissions.NOTIFICATIONS);
+//   }
+// }
 
 class App extends React.Component {
   state = {
     isLoadingComplete: false,
   };
+  
+  // componentDidMount() {
+  //   getiOSNotificationPermission();
+  //   this.listenForNotifications();
+  // }
 
   render() {
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
@@ -27,6 +41,35 @@ class App extends React.Component {
       );
     }
   }
+
+  // _handleButtonPress = () => {
+  //   const localnotification = {
+  //     title: 'Update Habits',
+  //     body: 'This is the body text of the local notification',
+  //     android: {
+  //       sound: true,
+  //     },
+  //     ios: {
+  //       sound: true,
+  //     },
+  //   };
+  //   let sendAfterFiveSeconds = Date.now();
+  //   sendAfterFiveSeconds += 5000;
+
+  //   const schedulingOptions = { time: sendAfterFiveSeconds };
+  //   Notifications.scheduleLocalNotificationAsync(
+  //     localnotification,
+  //     schedulingOptions
+  //   );
+  // };
+
+  // listenForNotifications = () => {
+  //   Notifications.addListener(notification => {
+  //     if (notification.origin === 'received' && Platform.OS === 'ios') {
+  //       Alert.alert(notification.title, notification.body);
+  //     }
+  //   });
+  // };
 
   _loadResourcesAsync = async () => {
     return Promise.all([

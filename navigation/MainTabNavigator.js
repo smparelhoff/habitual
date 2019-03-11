@@ -7,29 +7,16 @@ import {
 
 import TabBarIcon from "../components/TabBarIcon";
 import HabitScreen from "../screens/HabitScreen";
-import CreateHabitScreen from '../screens/CreateHabitScreen'
-import SettingsScreen from "../screens/SettingsScreen";
+import CreateHabitScreen from "../screens/CreateHabitScreen";
+import HabitOverviewScreen from "../screens/HabitOverviewScreen";
 
-// const HomeStack = createStackNavigator({
-//   Home: HomeScreen,
-//   Habits: HabitScreen,
-//   CreateHabit: CreateHabitScreen
-// }, {initialRouteName: "Home"});
-
-// HomeStack.navigationOptions = {
-//   tabBarLabel: "Home",
-//   tabBarIcon: ({ focused }) => (
-//     <TabBarIcon
-//       focused={focused}
-//       name={Platform.OS === "ios" ? "ios-home" : "md-home"}
-//     />
-//   )
-// };
-
-const HabitStack = createStackNavigator({
-  Habits: HabitScreen,
-  CreateHabit: CreateHabitScreen
-}, {initialRouteName: "Habits"});
+const HabitStack = createStackNavigator(
+  {
+    Habits: HabitScreen,
+    CreateHabit: CreateHabitScreen
+  },
+  { initialRouteName: "Habits" }
+);
 
 HabitStack.navigationOptions = {
   tabBarLabel: "habits",
@@ -41,22 +28,43 @@ HabitStack.navigationOptions = {
   )
 };
 
-const SettingsStack = createStackNavigator({
-  Settings: SettingsScreen
-});
+const NewHabitStack = createStackNavigator(
+  {
+    NewHabit: CreateHabitScreen
+  },
+  { initialRouteName: "NewHabit" }
+);
 
-SettingsStack.navigationOptions = {
-  tabBarLabel: "Settings",
+NewHabitStack.navigationOptions = {
+  tabBarLabel: "create",
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={Platform.OS === "ios" ? "ios-options" : "md-options"}
+      name={
+        Platform.OS === "ios"
+          ? "ios-add-circle-outline"
+          : "md-add-circle-outline"
+      }
+    />
+  )
+};
+
+const HabitOverviewStack = createStackNavigator({
+  Overview: HabitOverviewScreen
+});
+
+HabitOverviewStack.navigationOptions = {
+  tabBarLabel: "topview",
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === "ios" ? "ios-stats" : "md-stats"}
     />
   )
 };
 
 export default createBottomTabNavigator({
-  // HomeStack,
   HabitStack,
-  SettingsStack
+  NewHabitStack,
+  HabitOverviewStack
 });

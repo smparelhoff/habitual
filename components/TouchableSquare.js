@@ -10,7 +10,9 @@ export default class TouchableSquare extends React.PureComponent {
     this.props.onPress({
       name: this.props.name,
       status: this.props.clicked,
-      color: this.props.color
+      color: this.props.color,
+      date: this.props.date,
+      dayOfWeek: this.props.dayOfWeek
     });
   }
   render() {

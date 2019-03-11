@@ -61,11 +61,6 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     paddingTop: 200
-  },
-  square: {
-    backgroundColor: "red",
-    width: 100,
-    height: 100
   }
 });
 
