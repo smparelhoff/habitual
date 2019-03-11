@@ -1,19 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
-import { ScrollView, Text, View, StyleSheet } from "react-native";
-import { ThemeProvider, Button } from "react-native-elements";
+import { ScrollView, View, StyleSheet } from "react-native";
+import { ThemeProvider, Button, Text } from "react-native-elements";
 import TouchableSquare from "./TouchableSquare";
 import { updateHabit } from "../store/habits";
 
-const theme = {
-  Button: {
-    raised: true,
-    type: "outline",
-    titleStyle: { fontFamily: "montserrat-light" },
-    buttonStyle: { backgroundColor: "peachpuff" },
-    containerStyle: { width: 200 }
-  }
-};
 
 class Habits extends React.Component {
   constructor() {
@@ -31,7 +22,7 @@ class Habits extends React.Component {
         <ScrollView pagingEnabled={true}>
           {this.props.habits.map((habit, idx) => {
             return (
-              <View key={idx}>
+              <View style={styles.contentContainer} key={idx}>
                 <Text>{habit.name}</Text>
                 <TouchableSquare
                   name={habit.name}
@@ -54,17 +45,38 @@ class Habits extends React.Component {
   }
 }
 
+const theme = {
+  Button: {
+    type: "outline",
+    raised: true,
+    containerStyle: {
+      width: 100
+    },
+    titleStyle: {
+      color: "black",
+      fontFamily: "montserrat-light"
+    },
+    buttonStyle: {
+      backgroundColor: "#F5EDED"
+    }
+  },
+  Text: {
+    style: {
+      fontSize: 18,
+      fontFamily: "montserrat-light",
+      padding: 5
+    }
+  },
+};
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F5EDED",
-    padding: 100
+    backgroundColor: "#F5EDED"
   },
   contentContainer: {
-    paddingVertical: 150,
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 50
+    paddingTop: 25,
+    alignItems: "center"
   }
 });
 

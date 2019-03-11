@@ -26,7 +26,7 @@ export default class TouchableSquare extends React.PureComponent {
                 height: 200,
                 margin: 5,
                 alignSelf: "center",
-                borderRadius: 50,
+                borderRadius: 100,
                 backgroundColor: `${this.props.color}`
               }
             : styles.square
@@ -44,6 +44,6 @@ const styles = StyleSheet.create({
     height: 200,
     margin: 5,
     alignSelf: "center",
-    borderRadius: 50
+    borderRadius: 100
   }
 });
