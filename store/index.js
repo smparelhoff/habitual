@@ -13,7 +13,7 @@ const store = createStore(
 );
 
 // seed()
-// createLogger() 
+
 
 export default store;
 
